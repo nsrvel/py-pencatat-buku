@@ -1,5 +1,5 @@
 # # def string
-import src.database as database
+# import database.database as database
 
 # result = database.get_all_book("123", 1, 10)
 # print(result)
@@ -21,4 +21,4 @@ import src.database as database
 # async def back_or_quit():
 #     key = await get_user_input()
 #     if key == 'Esc':
-#         return command.PS
+#         return command.S1
