@@ -27,7 +27,8 @@ def main():
             # clear console
             display.display_clear()
             # menampilkan core visual
-            stages.choose(display.show(books, page_info, stages.is_show_list, stages.stage))
+            output = display.show(books, page_info, stages.is_show_list, stages.stage, stages.toast)
+            stages.choose(output)
             
         except Exception as error:
             stages.is_run = False

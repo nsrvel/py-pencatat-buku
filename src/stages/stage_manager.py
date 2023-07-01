@@ -1,6 +1,8 @@
 import src.constants.command as command
 from src.display.display import Display
+import src.utils.toast as u_toast
 from src.database.books_service import BooksService
+import src.constants.decorator as decorator
 
 class Stages():
     def __init__(self, display: Display, books_service: BooksService):
@@ -12,10 +14,18 @@ class Stages():
         self.is_show_list = False
         self.search = ""
         self.is_run = True
+        self.is_toast = False
+        self.toast = ""
+        
     
     def choose(self, output):
         self.output = output
         
+        self.reset_toast()
+        if u_toast.is_toast(output):            
+            self.toast = output
+            self.output = ""
+            
         if self.stage == 0:
             self._stage_home()
         elif self.stage == 1:
@@ -26,7 +36,11 @@ class Stages():
             self._stage_search_input()
         elif self.stage == 4:
             self._stage_page_input()
-    
+            
+    def reset_toast(self):        
+        if self.toast != "":
+            self.toast = ""
+                
     def _stage_home(self):
         if self.output == command.S0 or self.output == command.S1:
             self.display.display_out()
@@ -52,6 +66,7 @@ class Stages():
                     self.output.kota, 
                     self.output.tahun
                 ])
+                self.toast = f"{decorator.toast_success}Sukses menambahkan buku"
             except Exception as error:
                 return error
             self.stage = 0

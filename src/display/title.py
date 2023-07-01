@@ -8,9 +8,8 @@ def display_title():
     title = "Pencatat Buku"
     f = Figlet(font='standard')
     ascii_text = f.renderText(title)
-    console.print(ascii_text)
-
-# Menampilkan author
-def display_author():
-    authorText = "by: putra rama\n"
-    console.print(f"[yellow]{authorText}[/yellow]")
+    
+    author = "by: putra rama"
+    formatted_author = f"\n\n [yellow]{author}[/yellow]\n"
+    
+    console.print(ascii_text.rstrip() + formatted_author)

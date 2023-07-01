@@ -1,5 +1,6 @@
 import questionary as question
 import src.constants.command as command
+import src.utils.prompt as prompt
 
 # Menampilkan opsi utama
 def display_main_select(is_show_list: bool, books_length: int):
@@ -18,7 +19,7 @@ def display_main_select(is_show_list: bool, books_length: int):
         ])
     options.append(command.S0)
 
-    answer = _question_select(options)
+    answer = prompt.question_select(options)
     if answer == None:
         return command.S0
     return answer
@@ -36,19 +37,9 @@ def display_filter_select(page_info):
     options.append(command.C4)
     options.append(command.S1)
 
-    answer = _question_select(options)
+    answer = prompt.question_select(options)
     if answer == None:
-        return command.S0
+        return command.S1
     return answer
 
 
-def _question_select(options):
-    try:
-        selected_option = question.select(
-            "Menu \n", choices=options, instruction=" ", ).ask()
-        if selected_option == None:
-            return command.S1
-        else:
-            return selected_option
-    except:
-        return command.S1
