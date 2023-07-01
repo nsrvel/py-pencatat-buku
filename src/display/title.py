@@ -6,9 +6,9 @@ console = Console()
 # Menampilkan judul aplikasi
 def display_title():
     title = "Pencatat Buku"
-    f = Figlet(font='standard')
+    f = Figlet(font='smslant')
     ascii_text = f.renderText(title)    
-    console.print(ascii_text.rstrip())
+    console.print(f"[white]{ascii_text.rstrip()}[/white]")
     
 def display_author():
     author = "putra rama"
