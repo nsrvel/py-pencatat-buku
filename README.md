@@ -17,7 +17,7 @@ Task Feature:
 -    Lihat data
 -    Keluar Program
 
-Adapun struktur tabel buku sebagai berikut: (field yang digunakan):
+Adapun struktur tabel buku sebagai berikut: (field yang digunakan)
 -    no_isbn : varchar(15)
 -    judul : varchar(50)
 -    pengarang : varchar(30)
