@@ -34,6 +34,28 @@ class BooksService:
             self.db_manager.cursor.execute(query.q_insert_book, params)
         except sqlite3.Error as error:
             return error
+        
+    def update_book(self, params: list):
+        try:
+            self.db_manager.cursor.execute(query.q_update_book, params)
+        except sqlite3.Error as error:
+            return error
+        
+    def find_by_isbn(self, isbn: str):
+        try:
+            self.db_manager.cursor.execute(query.q_find_by_isbn, [isbn])
+            buku = self.db_manager.cursor.fetchone()
+            if buku == None:
+                return buku
+            return model_book.Buku(buku[0], buku[1], buku[2], buku[3], buku[4], buku[5], buku[6], buku[7], buku[8])
+        except sqlite3.Error as error:
+            return error
+        
+    def delete_book(self, isbn: str):
+        try:
+            self.db_manager.cursor.execute(query.q_delete_isbn, [isbn])
+        except sqlite3.Error as error:
+            return error
     
     # function untuk mendapatkan list buku dan informasi pagenya
     def get_all_book(self, search: str, page: int, size: int):
@@ -67,6 +89,7 @@ class BooksService:
         
         # Mencati data
         q_select += q_filter
+        q_select += f" ORDER BY id DESC"
         q_select += f" LIMIT {limit} OFFSET {offset}"
         if search != "":
             try:
@@ -87,3 +110,5 @@ class BooksService:
             result_list.append(instance)
 
         return result_list, model_page.Pagination(total, page, size)
+    
+    

@@ -24,3 +24,22 @@ q_select_books = """
 q_count_books = """
     SELECT COUNT(*) FROM books
 """
+
+q_find_by_isbn = """
+    SELECT * FROM books WHERE isbn = ?
+"""
+
+q_delete_isbn = """
+    DELETE FROM books WHERE isbn = ?
+"""
+
+q_update_book = """
+    UPDATE books
+    SET judul_buku = ?,
+        pengarang = ?,
+        penerbit = ?,
+        kota = ?,
+        tahun = ?,
+        updated_at = datetime('now')
+    where isbn = ?
+"""

@@ -1,4 +1,3 @@
-import questionary as question
 from rich.console import Console
 import src.constants.command as command
 import src.utils.prompt as prompt
@@ -17,6 +16,14 @@ def display_search_input():
 # Menampilkan form page
 def display_change_page_input():
     answer =  prompt.question_input("Page : ", ["required", "type:int"])
+    if answer == None:
+        return command.S1
+    else:
+        return answer
+
+# Menampilkan form isbn
+def display_isbn_input():
+    answer =  prompt.question_input("Nomor ISBN : ", ["required", "type:str"])
     if answer == None:
         return command.S1
     else:
@@ -51,3 +58,29 @@ def display_tambah_input():
         return command.S1
     
     return m_book.CreateBukuRequest(isbn=isbn, judul_buku=judul_buku, pengarang=pengarang, penerbit=penerbit, kota=kota, tahun=tahun)
+
+# Menampilkan form edit buku
+def display_edit_input(book: m_book.Buku):
+    console.print("Silahkan edit data-data berikut")
+    
+    judul_buku = prompt.question_input("Judul Buku : ", ["required", "type:str"], book.judul_buku)
+    if judul_buku == None:
+        return command.S1
+    
+    pengarang = prompt.question_input("Nama Pengarang : ", ["required", "type:str"], book.pengarang)
+    if pengarang == None:
+        return command.S1
+    
+    penerbit = prompt.question_input("Nama Penerbit : ", ["required", "type:str"], book.penerbit)
+    if penerbit == None:
+        return command.S1
+    
+    kota = prompt.question_input("Nama Kota Terbit : ", ["required", "type:str"], book.kota)
+    if kota == None:
+        return command.S1
+    
+    tahun = prompt.question_input("Tahun Terbit : ", ["required", "type:str"], book.tahun)
+    if tahun == None:
+        return command.S1
+    
+    return m_book.UpdateBukuRequest(isbn=book.isbn, judul_buku=judul_buku, pengarang=pengarang, penerbit=penerbit, kota=kota, tahun=tahun)

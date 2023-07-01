@@ -3,6 +3,7 @@ from src.config.config import Config
 from src.database.db import DatabaseManager
 from src.database.books_service import BooksService
 from src.stages.stage_manager import Stages
+import src.constants.decorator as decorator
 
 def main():
     
@@ -24,11 +25,14 @@ def main():
         try:
             # mancari data untuk ditampilkan
             books, page_info = books_service.get_all_book(stages.search, stages.page, stages.page_size)
-            # clear console
-            display.display_clear()
             # menampilkan core visual
-            output = display.show(books, page_info, stages.is_show_list, stages.stage, stages.toast)
-            stages.choose(output)
+            try:
+                stages.output = display.show(books, page_info, stages.is_show_list, stages.stage, stages.toast, stages.target)
+            except Exception as error:
+                display._display_toast(f"{decorator.toast_err}{error}")
+                display.display_out()
+            # pemilihan stage selanjutnya yang akan di load
+            stages.choose()
             
         except Exception as error:
             stages.is_run = False

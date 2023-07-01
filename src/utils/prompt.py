@@ -4,10 +4,10 @@ import src.display.toast as toast
 import questionary
 import json
 
-def _questionary_input(message: str):
+def _questionary_input(message: str, default: str = ""):
     try:
         try:
-            prompt = questionary.text(message)
+            prompt = questionary.text(message, default)
             answer = prompt.unsafe_ask()
             return answer if answer else ""
         except questionary.keyboard_interrupt_exception as e:
@@ -15,8 +15,15 @@ def _questionary_input(message: str):
     except:
         return None
     
-def question_input(message: str, tags: list[str] | None):
-    answer = _questionary_input(message)
+def question_confirm():
+    confirmation = questionary.confirm("Apakah Anda ingin melanjutkan?").ask()
+    if confirmation:
+        return True
+    else:
+        return False
+    
+def question_input(message: str, tags: list[str] | None, default: str = ""):
+    answer = _questionary_input(message, default)
     
     if answer == None:
         return answer

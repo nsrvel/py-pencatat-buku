@@ -19,10 +19,12 @@ def display_list(books: list, page_info: page.Pagination):
     table.add_column("Penerbit", min_width=12, justify="left")
     table.add_column("Kota", min_width=12, justify="left")
     table.add_column("Tahun", min_width=12, justify="left")
+    
+    counter = 1
 
     for book in books:
         table.add_row(
-            str(book.id),
+            str(counter),
             book.isbn,
             book.judul_buku,
             book.pengarang,
@@ -30,6 +32,7 @@ def display_list(books: list, page_info: page.Pagination):
             book.kota,
             book.tahun
         )
+        counter += 1
 
     console.print(table)
 

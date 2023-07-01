@@ -22,3 +22,13 @@ class CreateBukuRequest():
         self.penerbit = penerbit
         self.kota = kota
         self.tahun = tahun
+        
+class UpdateBukuRequest():
+    def __init__(self,  isbn: str, judul_buku: str, pengarang: str, penerbit: str, kota: str, tahun: str):
+        self.isbn = isbn
+        self.judul_buku = judul_buku
+        self.pengarang = pengarang
+        self.penerbit = penerbit
+        self.kota = kota
+        self.tahun = tahun
+

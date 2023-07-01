@@ -1,8 +1,8 @@
 import src.constants.command as command
 from src.display.display import Display
-import src.utils.toast as u_toast
 from src.database.books_service import BooksService
 import src.constants.decorator as decorator
+import src.models.book as m_book
 
 class Stages():
     def __init__(self, display: Display, books_service: BooksService):
@@ -16,15 +16,17 @@ class Stages():
         self.is_run = True
         self.is_toast = False
         self.toast = ""
-        
+        self.target = ""
+        self.pre_stage = 0
+        self.pre_output = None
+        self.confirm = None
     
-    def choose(self, output):
-        self.output = output
+    def choose(self):
         
-        self.reset_toast()
-        if u_toast.is_toast(output):            
-            self.toast = output
-            self.output = ""
+        self._reset_toast()
+        
+        if self.stage == 6:
+            self._stage_confirm()
             
         if self.stage == 0:
             self._stage_home()
@@ -36,10 +38,11 @@ class Stages():
             self._stage_search_input()
         elif self.stage == 4:
             self._stage_page_input()
-            
-    def reset_toast(self):        
-        if self.toast != "":
-            self.toast = ""
+        elif self.stage == 5:
+            self._stage_delete_book()
+        elif self.stage == 7:
+            self._stage_update_book()
+                    
                 
     def _stage_home(self):
         if self.output == command.S0 or self.output == command.S1:
@@ -52,24 +55,144 @@ class Stages():
             self.stage = 1
         elif self.output == command.M6:
             self.stage = 2
-
+        elif self.output == command.M8:
+            self.stage = 5
+        elif self.output == command.M7:
+            self.stage = 7
+            
+    def _stage_confirm(self):
+        self.stage = self.pre_stage
+        self.confirm = self.output
+        self.output = self.pre_output
+        
+    def _throw_toast(self, toast: str):
+        if self.toast == "":
+            self.toast = toast
+            self.pre_output = self.output
+        
+    def _reset_toast(self):
+        if self.toast != "":
+            self.toast = ""
+        
+            
+    def _stage_delete_book(self):
+        if self.target == "":
+            if self.output == command.S1:
+                self.stage = 0
+            else:
+                if self.confirm == None:
+                    try:
+                        book = self.books_service.find_by_isbn(self.output)
+                        if book == None:
+                            self._throw_toast(f"{decorator.toast_err}Buku tidak ditemukan")
+                        else:
+                            self.is_show_list = True
+                            self.pre_output = self.output
+                            self.search = self.pre_output
+                            self.target = book.isbn
+                            self.pre_stage = self.stage
+                            self.stage = 6
+                    except Exception as error:
+                        self._throw_toast(f"{decorator.toast_err}{str(error)}")
+        else:
+            if self.confirm == True:
+                try:
+                    self.books_service.delete_book(self.target)
+                    self._throw_toast(f"{decorator.toast_success}Sukses menghapus data")
+                except Exception as error:
+                    self._throw_toast(f"{decorator.toast_err}{str(error)}")
+                self.stage = 0
+            else:
+                self.stage = 5
+                self.is_show_list = False
+                
+            self.target = ""
+            self.page = 1
+            self.search = ""
+            self.confirm = None
+                
+    def _stage_update_book(self):
+        if self.target == "":
+            if self.output == command.S1:
+                self.stage = 0
+            else:
+                try:
+                    book = self.books_service.find_by_isbn(self.output)
+                    if book == None:
+                        self._throw_toast(f"{decorator.toast_err}Buku tidak ditemukan")
+                    else:
+                        self.is_show_list = True
+                        self.pre_output = self.output
+                        self.search = self.pre_output
+                        self.target = book.isbn
+                except Exception as error:
+                    self._throw_toast(f"{decorator.toast_err}{str(error)}")
+        else:
+            if self.output == command.S1:
+                self.stage = 7
+                self.target = ""
+                self.search = ""
+                self.page = 1
+                self.is_show_list = False
+            else:
+                if self.confirm == None:
+                    self.pre_output = self.output
+                    self.pre_stage = self.stage
+                    self.stage = 6
+                else:
+                    if self.confirm == True:
+                        try:
+                            self.books_service.update_book([
+                                self.output.judul_buku, 
+                                self.output.pengarang, 
+                                self.output.penerbit, 
+                                self.output.kota, 
+                                self.output.tahun,
+                                self.output.isbn
+                            ])
+                            self._throw_toast(f"{decorator.toast_success}Sukses mengedit data")
+                        except Exception as error:
+                            self._throw_toast(f"{decorator.toast_err}{str(error)}")
+                    self.stage = 0
+                    self.page = 1
+                    self.search = ""
+                    self.confirm = None
+                    self.target = ""
+                
     def _stage_add_book(self):
         if self.output == command.S1:
             self.stage = 0
         else:
-            try:
-                self.books_service.insert_book([
-                    self.output.isbn,
-                    self.output.judul_buku, 
-                    self.output.pengarang, 
-                    self.output.penerbit, 
-                    self.output.kota, 
-                    self.output.tahun
-                ])
-                self.toast = f"{decorator.toast_success}Sukses menambahkan buku"
-            except Exception as error:
-                return error
-            self.stage = 0
+            if self.confirm == None:
+                self.pre_output = self.output
+                self.pre_stage = self.stage
+                self.stage = 6
+            else:
+                if self.confirm == True:
+                    book = None
+                    try:
+                        book = self.books_service.find_by_isbn(self.output.isbn)
+                    except Exception as error:
+                        self._throw_toast(f"{decorator.toast_err}{str(error)}")
+                        
+                    if book != None:
+                        self._throw_toast(f"{decorator.toast_err}Buku dengan ISBN tersebut sudah ada")
+                    else:
+                        try:
+                            self.books_service.insert_book([
+                                self.output.isbn,
+                                self.output.judul_buku, 
+                                self.output.pengarang, 
+                                self.output.penerbit, 
+                                self.output.kota, 
+                                self.output.tahun
+                            ])
+                            self._throw_toast(f"{decorator.toast_success}Sukses menambahkan buku")
+                        except Exception as error:
+                            self._throw_toast(f"{decorator.toast_err}{str(error)}")
+                                
+                self.stage = 0
+                self.confirm = None
 
     def _stage_filter_list_book(self):
         if self.output == command.S1:
@@ -103,3 +226,4 @@ class Stages():
             else:
                 self.page = int(self.output)
                 self.stage = 2
+    

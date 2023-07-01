@@ -7,9 +7,13 @@ console = Console()
 def display_title():
     title = "Pencatat Buku"
     f = Figlet(font='standard')
-    ascii_text = f.renderText(title)
+    ascii_text = f.renderText(title)    
+    console.print(ascii_text.rstrip())
     
-    author = "by: putra rama"
-    formatted_author = f"\n\n [yellow]{author}[/yellow]\n"
+def display_author():
+    author = "putra rama"
+    formatted_author = f"[yellow]{author}[/yellow]"
     
-    console.print(ascii_text.rstrip() + formatted_author)
+    github = "https://github.com/nsrvel/py-pencatat-buku"
+    formatted_github = f"[italic white]{github}[italic white]"
+    console.print(f"\nby: {formatted_author} | {formatted_github}\n")

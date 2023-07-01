@@ -1,6 +1,7 @@
 RS = "Reset stage"
 S0 = "Keluar [Ctrl + C]"
 S1 = "Kembali [Ctrl + C]"
+RT = "Reset Toast"
 
 M1 = "Lihat data"
 M2 = "Sembunyikan data"
