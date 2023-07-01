@@ -5,7 +5,10 @@
 <br>
 
 
-## How to run?
+## 👨‍💻 Requirements
+    pip install pyfiglet questionary python-dotenv rich
+
+## 🚀 How to run?
 
 #### Run:
   
