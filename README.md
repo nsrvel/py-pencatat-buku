@@ -9,12 +9,12 @@
 
 #### Run:
   
-    py ./main.py
+    python ./main.py
       
 #### Run and insert initial data books:
   
-    py ./main.py --init
+    python ./main.py --init
   
 #### Run and reset database:
   
-    py ./main.py --reset
+    python ./main.py --reset
