@@ -25,8 +25,8 @@ def display_list(books: list, page_info: page.Pagination):
     for book in books:
         table.add_row(
             str(counter),
-            book.isbn,
-            book.judul_buku,
+            book.no_isbn,
+            book.judul,
             book.pengarang,
             book.penerbit,
             book.kota,

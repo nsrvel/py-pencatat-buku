@@ -21,8 +21,8 @@ def display_change_page_input():
     else:
         return answer
 
-# Menampilkan form isbn
-def display_isbn_input():
+# Menampilkan form no_isbn
+def display_no_isbn_input():
     answer =  prompt.question_input("Nomor ISBN : ", ["required", "type:str"])
     if answer == None:
         return command.S1
@@ -33,54 +33,54 @@ def display_isbn_input():
 def display_tambah_input():
     console.print("Silahkan isi data-data berikut")
     
-    isbn = prompt.question_input("Nomor ISBN : ", ["required", "type:str"])
-    if isbn == None:
+    no_isbn = prompt.question_input("Nomor ISBN : ", ["required", "type:str", "min:8", "max:15"])
+    if no_isbn == None:
         return command.S1
     
-    judul_buku = prompt.question_input("Judul Buku : ", ["required", "type:str"])
-    if judul_buku == None:
+    judul = prompt.question_input("Judul Buku : ", ["required", "type:str", "max:50"])
+    if judul == None:
         return command.S1
     
-    pengarang = prompt.question_input("Nama Pengarang : ", ["required", "type:str"])
+    pengarang = prompt.question_input("Nama Pengarang : ", ["required", "type:str", "max:30"])
     if pengarang == None:
         return command.S1
     
-    penerbit = prompt.question_input("Nama Penerbit : ", ["required", "type:str"])
+    penerbit = prompt.question_input("Nama Penerbit : ", ["required", "type:str", "max:30"])
     if penerbit == None:
         return command.S1
     
-    kota = prompt.question_input("Nama Kota Terbit : ", ["required", "type:str"])
+    kota = prompt.question_input("Nama Kota Terbit : ", ["required", "type:str", "max:25"])
     if kota == None:
         return command.S1
     
-    tahun = prompt.question_input("Tahun Terbit : ", ["required", "type:str"])
+    tahun = prompt.question_input("Tahun Terbit : ", ["required", "type:str", "len:4"])
     if tahun == None:
         return command.S1
     
-    return m_book.CreateBukuRequest(isbn=isbn, judul_buku=judul_buku, pengarang=pengarang, penerbit=penerbit, kota=kota, tahun=tahun)
+    return m_book.CreateBukuRequest(no_isbn=no_isbn, judul=judul, pengarang=pengarang, penerbit=penerbit, kota=kota, tahun=tahun)
 
 # Menampilkan form edit buku
 def display_edit_input(book: m_book.Buku):
     console.print("Silahkan edit data-data berikut")
     
-    judul_buku = prompt.question_input("Judul Buku : ", ["required", "type:str"], book.judul_buku)
-    if judul_buku == None:
+    judul = prompt.question_input("Judul Buku : ", ["required", "type:str", "max:50"], book.judul)
+    if judul == None:
         return command.S1
     
-    pengarang = prompt.question_input("Nama Pengarang : ", ["required", "type:str"], book.pengarang)
+    pengarang = prompt.question_input("Nama Pengarang : ", ["required", "type:str", "max:30"], book.pengarang)
     if pengarang == None:
         return command.S1
     
-    penerbit = prompt.question_input("Nama Penerbit : ", ["required", "type:str"], book.penerbit)
+    penerbit = prompt.question_input("Nama Penerbit : ", ["required", "type:str", "max:30"], book.penerbit)
     if penerbit == None:
         return command.S1
     
-    kota = prompt.question_input("Nama Kota Terbit : ", ["required", "type:str"], book.kota)
+    kota = prompt.question_input("Nama Kota Terbit : ", ["required", "type:str", "max:25"], book.kota)
     if kota == None:
         return command.S1
     
-    tahun = prompt.question_input("Tahun Terbit : ", ["required", "type:str"], book.tahun)
+    tahun = prompt.question_input("Tahun Terbit : ", ["required", "type:str", "len:4"], book.tahun)
     if tahun == None:
         return command.S1
     
-    return m_book.UpdateBukuRequest(isbn=book.isbn, judul_buku=judul_buku, pengarang=pengarang, penerbit=penerbit, kota=kota, tahun=tahun)
+    return m_book.UpdateBukuRequest(no_isbn=book.no_isbn, judul=judul, pengarang=pengarang, penerbit=penerbit, kota=kota, tahun=tahun)

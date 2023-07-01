@@ -41,9 +41,9 @@ class BooksService:
         except sqlite3.Error as error:
             return error
         
-    def find_by_isbn(self, isbn: str):
+    def find_by_no_isbn(self, no_isbn: str):
         try:
-            self.db_manager.cursor.execute(query.q_find_by_isbn, [isbn])
+            self.db_manager.cursor.execute(query.q_find_by_no_isbn, [no_isbn])
             buku = self.db_manager.cursor.fetchone()
             if buku == None:
                 return buku
@@ -51,9 +51,9 @@ class BooksService:
         except sqlite3.Error as error:
             return error
         
-    def delete_book(self, isbn: str):
+    def delete_book(self, no_isbn: str):
         try:
-            self.db_manager.cursor.execute(query.q_delete_isbn, [isbn])
+            self.db_manager.cursor.execute(query.q_delete_no_isbn, [no_isbn])
         except sqlite3.Error as error:
             return error
     
@@ -71,7 +71,7 @@ class BooksService:
         # Set Filter
         q_filter = ""
         if search != "":
-            q_filter += f" WHERE UPPER(isbn) LIKE UPPER(?) OR UPPER(judul_buku) LIKE UPPER(?)"
+            q_filter += f" WHERE UPPER(no_isbn) LIKE UPPER(?) OR UPPER(judul) LIKE UPPER(?)"
 
         # Mencari total data sebenarnya
         q_count += q_filter

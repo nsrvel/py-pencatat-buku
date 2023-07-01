@@ -51,7 +51,7 @@ class Display():
                     return error
             if stage == 5:
                 try:
-                    return self._display_isbn_input()
+                    return self._display_no_isbn_input()
                 except Exception as error:
                     return error
             if stage == 6:
@@ -62,7 +62,7 @@ class Display():
             if stage == 7:
                 if target == "":
                     try:
-                        return self._display_isbn_input()
+                        return self._display_no_isbn_input()
                     except Exception as error:
                         return error
                 else:
@@ -95,8 +95,8 @@ class Display():
         return d_input.display_change_page_input()
     def _display_tambah_input(self):
         return d_input.display_tambah_input()
-    def _display_isbn_input(self):
-        return d_input.display_isbn_input()
+    def _display_no_isbn_input(self):
+        return d_input.display_no_isbn_input()
     def _display_edit_input(self, book):
         return d_input.display_edit_input(book)
     def _display_confirm(self):

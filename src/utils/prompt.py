@@ -1,4 +1,3 @@
-import questionary
 import src.constants.decorator as decorator
 import src.display.toast as toast
 import questionary
@@ -29,10 +28,13 @@ def question_input(message: str, tags: list[str] | None, default: str = ""):
         return answer
     else:        
         if tags is not None:
+            final_error = False
             for tag in tags:
+                
                 if tag == "required" and not answer:
                     toast.display_toast(f"{decorator.toast_err}Wajib diisi")
                     return question_input(message, tags)
+                
                 if "type:" in tag:
                     is_error = False
                     expected_type_raw = tag.replace(" ", "").replace("type:", "")
@@ -57,10 +59,38 @@ def question_input(message: str, tags: list[str] | None, default: str = ""):
                                 is_error = True
                                 
                     if is_error:
+                        final_error = True
                         toast.display_toast(f"{decorator.toast_err}Input harus berupa {expected_type_raw.replace(',', ' / ')}")
-                        return question_input(message, tags)
-                    else:
-                        return answer
+
+                if "min:" in tag:
+                    try:
+                        minimal = int(tag.split(":")[1])
+                        if len(str(answer)) < minimal:
+                            final_error = True
+                            toast.display_toast(f"{decorator.toast_err}Minimal {minimal} karakter")
+                    except:
+                        return None
+                if "max:" in tag:
+                    try:
+                        maximal = int(tag.split(":")[1])
+                        if len(str(answer)) > maximal:
+                            final_error = True
+                            toast.display_toast(f"{decorator.toast_err}Maximal {maximal} karakter")
+                    except:
+                        return None
+                if "len:" in tag:
+                    try:
+                        length = int(tag.split(":")[1])
+                        if len(str(answer)) != length:
+                            final_error = True
+                            toast.display_toast(f"{decorator.toast_err}Harus {length} karakter")
+                    except:
+                        return None
+            
+            if final_error:
+                return question_input(message, tags)
+            else:
+                return answer
 
 def question_select(options):
     try:

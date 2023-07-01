@@ -82,14 +82,14 @@ class Stages():
             else:
                 if self.confirm == None:
                     try:
-                        book = self.books_service.find_by_isbn(self.output)
+                        book = self.books_service.find_by_no_isbn(self.output)
                         if book == None:
                             self._throw_toast(f"{decorator.toast_err}Buku tidak ditemukan")
                         else:
                             self.is_show_list = True
                             self.pre_output = self.output
                             self.search = self.pre_output
-                            self.target = book.isbn
+                            self.target = book.no_isbn
                             self.pre_stage = self.stage
                             self.stage = 6
                     except Exception as error:
@@ -117,14 +117,14 @@ class Stages():
                 self.stage = 0
             else:
                 try:
-                    book = self.books_service.find_by_isbn(self.output)
+                    book = self.books_service.find_by_no_isbn(self.output)
                     if book == None:
                         self._throw_toast(f"{decorator.toast_err}Buku tidak ditemukan")
                     else:
                         self.is_show_list = True
                         self.pre_output = self.output
                         self.search = self.pre_output
-                        self.target = book.isbn
+                        self.target = book.no_isbn
                 except Exception as error:
                     self._throw_toast(f"{decorator.toast_err}{str(error)}")
         else:
@@ -143,12 +143,12 @@ class Stages():
                     if self.confirm == True:
                         try:
                             self.books_service.update_book([
-                                self.output.judul_buku, 
+                                self.output.judul, 
                                 self.output.pengarang, 
                                 self.output.penerbit, 
                                 self.output.kota, 
                                 self.output.tahun,
-                                self.output.isbn
+                                self.output.no_isbn
                             ])
                             self._throw_toast(f"{decorator.toast_success}Sukses mengedit data")
                         except Exception as error:
@@ -171,7 +171,7 @@ class Stages():
                 if self.confirm == True:
                     book = None
                     try:
-                        book = self.books_service.find_by_isbn(self.output.isbn)
+                        book = self.books_service.find_by_no_isbn(self.output.no_isbn)
                     except Exception as error:
                         self._throw_toast(f"{decorator.toast_err}{str(error)}")
                         
@@ -180,8 +180,8 @@ class Stages():
                     else:
                         try:
                             self.books_service.insert_book([
-                                self.output.isbn,
-                                self.output.judul_buku, 
+                                self.output.no_isbn,
+                                self.output.judul, 
                                 self.output.pengarang, 
                                 self.output.penerbit, 
                                 self.output.kota, 
