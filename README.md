@@ -51,5 +51,11 @@ perkuliahan (penamaan variable, struktur kontrol, error handling, dll)
     python ./main.py --init
   
 #### Run and reset database:
-  
     python ./main.py --reset
+
+## Demo
+
+https://github.com/nsrvel/py-pencatat-buku/assets/96807552/257f8e34-6168-488b-9bdf-0dcb861b6cf5
+
+
+
