@@ -6,9 +6,13 @@
 
 ## Description
 #### UAS Pemrograman Dasar Lab
+
+
 Aplikasi Pencatat Buku
 
-Task: Anda diminta untuk menyiapkan aplikasi sederhana untuk mencatat
+Task:
+    
+Anda diminta untuk menyiapkan aplikasi sederhana untuk mencatat
 informasi buku (no_isbn, judul, pengarang, penerbit, kota, tahun) ke dalam
 sebuah database (nama tabel: buku)
 
