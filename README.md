@@ -55,7 +55,11 @@ perkuliahan (penamaan variable, struktur kontrol, error handling, dll)
 
 ## Demo
 
-https://github.com/nsrvel/py-pencatat-buku/assets/96807552/257f8e34-6168-488b-9bdf-0dcb861b6cf5
+
+
+https://github.com/nsrvel/py-pencatat-buku/assets/96807552/e9fd4646-36f7-46ff-b6e5-091436cd6940
+
+
 
 
 
